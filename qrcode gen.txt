@@ -1,0 +1,14 @@
+$googleValidator = new GoogleAuthValidator();
+$secret = $googleValidator->createSecret();
+$googleValidator = new GoogleAuthValidator();
+$checkResult = $googleValidator->verifyCode($secCode, $oneTimeCode, 2);    // 2 = 2*30sec clock tolerance
+
+
+
+$code = "otpauth://totp/USERNAME?secret=$secret&issuer=ISSUER";
+        $qrcode = new Qrcode($code);
+        $image = $qrcode->output_image();
+        imagejpeg($image);
+        $rawImageBytes = ob_get_clean();
+        $imgBase64     = base64_encode($rawImageBytes);
+        $QRimage       = ('data:jpeg;base64,' . $imgBase64);
